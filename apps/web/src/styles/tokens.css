@@ -1,0 +1,218 @@
+/* Waypoint design tokens. Generated from the Dashboard mockup (Main.dc.html).
+ * Do not hand-edit values here without checking both themes. */
+
+:root {
+  /* type */
+  --font-display: 'Space Grotesk', Inter, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+  /* radius */
+  --r-pill: 999px; --r-panel: 24px; --r-map: 20px; --r-card: 18px; --r-btn: 14px; --r-field: 12px; --r-sm: 10px; --r-xs: 8px;
+  /* space (4px grid) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px; --s-7: 28px; --s-8: 32px;
+  /* motion */
+  --t-fast: 150ms; --t-base: 200ms; --t-bar: 450ms; --t-map: 500ms; --ease-out: cubic-bezier(.2,.8,.2,1);
+  /* brand gradients (same in both themes) */
+  --grad-primary: linear-gradient(90deg, #22d3ee 0%, #6366f1 55%, #ec4899 100%);
+  --grad-primary-shadow: 0 12px 30px -12px rgba(99,102,241,.8);
+  --grad-logo: linear-gradient(135deg, #22d3ee, #6366f1 60%, #a855f7);
+  --grad-avatar: linear-gradient(135deg, #f59e0b, #ec4899);
+  --grad-text: linear-gradient(90deg, #5eead4 0%, #60a5fa 35%, #c084fc 70%, #f472b6 100%);
+  --grad-tide: linear-gradient(90deg, #ff8a65 0%, #4fd1e8 40%, #f5b84b 70%, #a78bfa 100%);
+  /* status */
+  --ok-solid: #5fe3a1; --danger-solid: #ff8a65; --gold: #f5b84b;
+  /* fit breakdown bar colours, in order major, match, distance, prep_time, trust */
+  --part-major: #4fd1e8; --part-match: #a78bfa; --part-distance: #5fe3a1; --part-prep: #f5b84b; --part-trust: #f472b6;
+  /* map category colours (on the map in both themes) */
+  --map-cat-internship: #22A9C4;
+  --map-cat-seminar: #8B6CF0;
+  --map-cat-call-for-papers: #DB4F92;
+  --map-cat-competition: #E09A1F;
+  /* map bubbles and tooltips (white discs, same in both themes) */
+  --map-bubble-bg: #FFFFFF; --map-bubble-ink: #15171C; --map-bubble-sub: #5B6270; --map-bubble-track: #E3E6EB;
+  --map-bubble-shadow: 0 14px 24px -12px rgba(21,23,28,.4);
+  --map-tip-bg: #15171C; --map-tip-ink: #FFFFFF; --map-tip-sub: #C9CED6;
+  --map-shadow: 0 30px 70px -34px rgba(34,211,238,.55);
+  /* dark ink on solid category tiles and buttons */
+  --cat-internship-ink: #04121f; --cat-seminar-ink: #120a2e; --cat-call-for-papers-ink: #2a0718; --cat-competition-ink: #2b1a00;
+  /* top match highlight */
+  --gold-line: rgba(245,184,75,.55);
+  --gold-tint: rgba(245,184,75,.16);
+  --gold-glow: 0 0 0 1px rgba(245,184,75,.15), 0 18px 40px -18px rgba(245,184,75,.45);
+  --logo-shadow: 0 10px 26px -10px rgba(99,102,241,.9);
+  --on-grad: #ffffff;
+  --vio-line: rgba(196,181,253,.45);
+}
+
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e6f0f7;
+  --ink2: #cfe9f3;
+  --muted: #9fb3c8;
+  --muted2: #b5c7d8;
+  --faint: #8aa0b6;
+  --ph: #6f879e;
+  --link: #7fe3f5;
+  --linkh: #b6f1fb;
+  --soft: #9fd8e6;
+  --line: rgba(255,255,255,.18);
+  --line2: rgba(255,255,255,.10);
+  --chip: rgba(255,255,255,.08);
+  --card: rgba(255,255,255,.045);
+  --inset: rgba(4,12,26,.45);
+  --inset2: rgba(4,12,26,.55);
+  --float: rgba(8,18,36,.74);
+  --glassA: rgba(125,170,255,.10);
+  --glassB: rgba(255,255,255,.035);
+  --glassC: rgba(170,120,255,.07);
+  --mapA: rgba(56,189,248,.12);
+  --mapB: rgba(255,255,255,.03);
+  --mapC: rgba(168,85,247,.10);
+  --shadow: rgba(0,0,0,.75);
+  --hilite: inset 0 1px 0 rgba(255,255,255,.10);
+  --track: #1c3550;
+  --hole: #101f33;
+  --hole2: #071627;
+  --page: #061322;
+  --navOn: #11324a;
+  --overlay: #020a14cc;
+  --modalA: rgba(20,34,62,.92);
+  --modalB: rgba(24,18,52,.92);
+  --warnBg: #3d1d14;
+  --warn: #ffb59f;
+  --okBg: #123b2b;
+  --ok: #8ff0bd;
+  --infoBg: #102a3d;
+  --swOff: #2a3f55;
+  --selBg: rgba(34,211,238,.16);
+  --catI: #0f3347;
+  --catS: #231b44;
+  --catP: #3a1430;
+  --catC: #3a2a0c;
+  --vio: linear-gradient(90deg, rgba(99,102,241,.38), rgba(168,85,247,.38));
+  --vioInk: #ffffff;
+  --neb: radial-gradient(700px 520px at 8% 0%, rgba(34,211,238,.20), transparent 70%), radial-gradient(760px 560px at 92% 8%, rgba(168,85,247,.22), transparent 70%), radial-gradient(900px 600px at 55% 105%, rgba(236,72,153,.14), transparent 70%), radial-gradient(1000px 700px at 35% 55%, rgba(37,99,235,.16), transparent 75%), #050b18;
+  --cat-internship: #4fd1e8; --cat-internship-text: #4fd1e8;
+  --cat-seminar: #a78bfa; --cat-seminar-text: #a78bfa;
+  --cat-call-for-papers: #f472b6; --cat-call-for-papers-text: #f472b6;
+  --cat-competition: #f5b84b; --cat-competition-text: #f5b84b;
+  --map-ground: #0c1626;
+  --map-water: #0f3658;
+  --map-coast: #1d4f7a;
+  --map-road-case: #0a1220;
+  --map-road: #23344f;
+  --map-halo: #0c1626;
+  --map-ring-fill: rgba(34,211,238,.07);
+  --map-ring: #22d3ee;
+  --map-route: #f0abfc;
+  --map-text: #e6f0f7;
+  --map-bay: #4b86b4;
+  --map-label-bg: rgba(8,18,36,.92);
+  --map-label-ink: #e6f0f7;
+  --map-label-line: rgba(255,255,255,.22);
+  --map-stem: #e6f0f7;
+  --map-campus-bg: #e6f0f7;
+  --map-campus-ink: #0b1220;
+  --map-home: #38bdf8;
+  --map-home-glow: rgba(56,189,248,.32);
+  --map-campus-block: #cbd5e1;
+  --map-in-a: #14b8a6;
+  --map-in-b: #facc15;
+  --map-grey: #64748b;
+  --map-block-top: #24344f;
+  --map-block-front: #17233b;
+  --map-block-back: #1c2a45;
+  --map-block-right: #111a2e;
+  --map-block-left: #1f2e4a;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --ink: #0f1b2d;
+  --ink2: #1f3047;
+  --muted: #4b5d73;
+  --muted2: #3d4f66;
+  --faint: #5f7187;
+  --ph: #8193a8;
+  --link: #0e7490;
+  --linkh: #155e75;
+  --soft: #0e7490;
+  --line: rgba(30,50,90,.16);
+  --line2: rgba(30,50,90,.10);
+  --chip: rgba(30,50,90,.06);
+  --card: rgba(255,255,255,.62);
+  --inset: rgba(255,255,255,.55);
+  --inset2: rgba(255,255,255,.7);
+  --float: rgba(255,255,255,.8);
+  --glassA: rgba(255,255,255,.78);
+  --glassB: rgba(255,255,255,.52);
+  --glassC: rgba(243,236,255,.66);
+  --mapA: rgba(224,247,255,.75);
+  --mapB: rgba(255,255,255,.55);
+  --mapC: rgba(245,236,255,.7);
+  --shadow: rgba(40,60,110,.20);
+  --hilite: inset 0 1px 0 rgba(255,255,255,.9);
+  --track: #dfe6f0;
+  --hole: #ffffff;
+  --hole2: #ffffff;
+  --page: #f3f6fc;
+  --navOn: rgba(14,116,144,.12);
+  --overlay: rgba(15,27,45,.35);
+  --modalA: rgba(255,255,255,.94);
+  --modalB: rgba(246,241,255,.94);
+  --warnBg: #ffe8df;
+  --warn: #b4381a;
+  --okBg: #dcfce9;
+  --ok: #15803d;
+  --infoBg: #e0f2fe;
+  --swOff: #c7d2e0;
+  --selBg: rgba(14,116,144,.10);
+  --catI: #dff6fb;
+  --catS: #ede8ff;
+  --catP: #fde7f3;
+  --catC: #fdf1d6;
+  --vio: linear-gradient(90deg, rgba(99,102,241,.16), rgba(168,85,247,.16));
+  --vioInk: #4c1d95;
+  --neb: radial-gradient(700px 520px at 8% 0%, rgba(34,211,238,.22), transparent 70%), radial-gradient(760px 560px at 92% 8%, rgba(168,85,247,.18), transparent 70%), radial-gradient(900px 600px at 55% 105%, rgba(236,72,153,.12), transparent 70%), radial-gradient(1000px 700px at 35% 55%, rgba(96,165,250,.14), transparent 75%), #eef2fa;
+  --cat-internship: #4fd1e8; --cat-internship-text: #0e7490;
+  --cat-seminar: #a78bfa; --cat-seminar-text: #6d28d9;
+  --cat-call-for-papers: #f472b6; --cat-call-for-papers-text: #be185d;
+  --cat-competition: #f5b84b; --cat-competition-text: #b45309;
+  --map-ground: #EEF0F3;
+  --map-water: #C7DCEC;
+  --map-coast: #B3CDE2;
+  --map-road-case: #D6DAE0;
+  --map-road: #FFFFFF;
+  --map-halo: #FFFFFF;
+  --map-ring-fill: #15171C08;
+  --map-ring: #15171C;
+  --map-route: #15171C;
+  --map-text: #15171C;
+  --map-bay: #7E9DB6;
+  --map-label-bg: #FFFFFF;
+  --map-label-ink: #15171C;
+  --map-label-line: #DADFE5;
+  --map-stem: #15171C;
+  --map-campus-bg: #15171C;
+  --map-campus-ink: #FFFFFF;
+  --map-home: #2563EB;
+  --map-home-glow: #2563EB33;
+  --map-campus-block: #2A2E37;
+  --map-in-a: #36B373;
+  --map-in-b: #EBC94A;
+  --map-grey: #9AA1AD;
+  --map-block-top: #FFFFFF;
+  --map-block-front: #E4E7EB;
+  --map-block-back: #ECEEF1;
+  --map-block-right: #D3D7DD;
+  --map-block-left: #EDEFF2;
+}
+
+/* glass recipes */
+.glass { background: linear-gradient(160deg, var(--glassA) 0%, var(--glassB) 45%, var(--glassC) 100%); border: 1px solid var(--line2); box-shadow: var(--hilite), 0 24px 60px -28px var(--shadow); backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%); }
+.glass-map { background: linear-gradient(160deg, var(--mapA) 0%, var(--mapB) 50%, var(--mapC) 100%); border: 1px solid var(--line2); box-shadow: var(--hilite), 0 24px 60px -28px var(--shadow); }
+.glass-float { background: var(--float); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid var(--line); }
+.inset { background: var(--inset); border: 1px solid var(--line2); }
+.text-gradient { background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+body { margin: 0; background: var(--neb); color: var(--ink); font-family: var(--font-body); min-height: 100vh; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; } }

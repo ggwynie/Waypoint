@@ -1,0 +1,109 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* Tailwind utilities mapped onto the design tokens. No raw hex in components. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-muted: var(--muted);
+  --color-muted2: var(--muted2);
+  --color-faint: var(--faint);
+  --color-link: var(--link);
+  --color-soft: var(--soft);
+  --color-line: var(--line);
+  --color-line2: var(--line2);
+  --color-chip: var(--chip);
+  --color-card: var(--card);
+  --color-inset: var(--inset);
+  --color-inset2: var(--inset2);
+  --color-float: var(--float);
+  --color-track: var(--track);
+  --color-hole: var(--hole);
+  --color-hole2: var(--hole2);
+  --color-page: var(--page);
+  --color-nav-on: var(--navOn);
+  --color-overlay: var(--overlay);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warnBg);
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--okBg);
+  --color-info-bg: var(--infoBg);
+  --color-sel-bg: var(--selBg);
+  --color-sw-off: var(--swOff);
+  --color-vio-ink: var(--vioInk);
+  --color-ok-solid: var(--ok-solid);
+  --color-danger: var(--danger-solid);
+  --color-gold: var(--gold);
+
+  --radius-pill: var(--r-pill);
+  --radius-panel: var(--r-panel);
+  --radius-map: var(--r-map);
+  --radius-card: var(--r-card);
+  --radius-btn: var(--r-btn);
+  --radius-field: var(--r-field);
+  --radius-sm: var(--r-sm);
+  --radius-xs: var(--r-xs);
+
+  --font-heading: var(--font-display);
+  --font-sans: var(--font-body);
+}
+
+/* next/font provides hashed family names; point the tokens at them. */
+:root {
+  --font-display: var(--font-sg), Inter, system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+}
+
+html { background: var(--page); }
+body { min-height: 100vh; }
+a { color: var(--link); }
+a:hover { color: var(--linkh); }
+input[type="range"] { accent-color: var(--cat-internship); }
+input::placeholder { color: var(--ph); }
+select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 40px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239fd8e6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+select option { background: var(--page); color: var(--ink); }
+.wp-num { font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Motion. Reduced motion is handled globally in tokens.css. */
+@keyframes wpPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 138, 101, 0.55); }
+  70% { box-shadow: 0 0 0 12px rgba(255, 138, 101, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 138, 101, 0); }
+}
+.wp-pulse { animation: wpPulse 2s ease-out infinite; }
+.wp-bar { transition: width var(--t-bar) var(--ease-out); }
+@keyframes wpShimmer { from { background-position: -400px 0; } to { background-position: 400px 0; } }
+.wp-skeleton {
+  background: linear-gradient(90deg, var(--card) 0%, var(--chip) 50%, var(--card) 100%);
+  background-size: 800px 100%;
+  animation: wpShimmer 1.6s linear infinite;
+}
+@keyframes wpToast { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.wp-toast { animation: wpToast 250ms var(--ease-out) both; }
+
+/* 3D city map */
+.mc-plane { transition: transform var(--t-map) var(--ease-out); }
+.mc-dragging .mc-plane { transition: none; }
+.mc-bubble { transition: transform var(--t-base) var(--ease-out); }
+.mc-bubble:hover { transform: translateY(-4px) scale(1.05); }
+.mc-ctl:hover { background: var(--navOn) !important; }
+.mc-ctl:focus-visible, .mc-bubble:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+@keyframes mcRise { from { transform: scaleZ(0.02); } to { transform: scaleZ(1); } }
+.mc-rise { animation: mcRise 0.9s var(--ease-out) both; }
+@keyframes mcDrop { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+.mc-drop { animation: mcDrop 0.5s 1s var(--ease-out) both; }
+.mc-tip { opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity var(--t-fast), transform var(--t-fast); }
+.mc-pin:hover .mc-tip, .mc-pin:focus-within .mc-tip { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .mc-bubble:hover { transform: none; }
+  .mc-rise, .mc-drop, .wp-pulse, .wp-skeleton { animation: none; }
+}
