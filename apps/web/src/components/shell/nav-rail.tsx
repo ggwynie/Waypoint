@@ -18,12 +18,12 @@ export function NavRail({ initials }: { initials: string }) {
   return (
     <nav
       aria-label="Main"
-      className="glass box-border flex shrink-0 flex-row items-center gap-3 rounded-[20px] px-4 py-2 max-[760px]:w-full max-[760px]:overflow-x-auto min-[761px]:w-[72px] min-[761px]:flex-col min-[761px]:px-0 min-[761px]:py-4"
+      className="glass box-border flex shrink-0 flex-row items-center justify-between gap-1.5 rounded-[20px] px-2 py-2 max-[760px]:w-full min-[761px]:w-[72px] min-[761px]:flex-col min-[761px]:justify-start min-[761px]:gap-3 min-[761px]:px-0 min-[761px]:py-4"
     >
       <Link
         href="/home"
         aria-label="Waypoint home"
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-btn text-[var(--on-grad)] min-[761px]:mb-3"
+        className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-btn text-[var(--on-grad)] min-[761px]:mb-3 min-[761px]:flex"
         style={{ background: "var(--grad-logo)", boxShadow: "var(--logo-shadow)" }}
       >
         <CompassIcon size={24} />
@@ -37,14 +37,14 @@ export function NavRail({ initials }: { initials: string }) {
             aria-label={label}
             title={label}
             aria-current={on ? "page" : undefined}
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-btn border"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-btn border min-[761px]:h-12 min-[761px]:w-12"
             style={on ? { background: "var(--navOn)", borderColor: "var(--line)", color: "var(--link)" } : { background: "transparent", borderColor: "transparent", color: "var(--muted)" }}
           >
             <Icon size={22} />
           </Link>
         );
       })}
-      <div className="flex-1" />
+      <div className="hidden flex-1 min-[761px]:block" />
       <Link
         href="/profile"
         aria-label="Profile"

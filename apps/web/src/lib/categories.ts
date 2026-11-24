@@ -11,7 +11,6 @@ export const CAT: Record<Category, { css: string; chipBg: string; label: string;
 export const catColor = (c: Category) => `var(--cat-${CAT[c].css})`;
 export const catText = (c: Category) => `var(--cat-${CAT[c].css}-text)`;
 export const catInk = (c: Category) => `var(--cat-${CAT[c].css}-ink)`;
-export const mapCatColor = (c: Category) => `var(--map-cat-${CAT[c].css})`;
 
 /** Trust labels. */
 export const TRUST_LABEL: Record<TrustLevel, string> = {

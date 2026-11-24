@@ -16,7 +16,7 @@ import { useFeed, useReminders, useSaved, useWaking } from "@/lib/hooks/queries"
 
 export default function HomePage() {
   const router = useRouter();
-  const { me, majorName, campus, district, originWord, tags } = useProfileView();
+  const { me, majorName, district, originWord, tags } = useProfileView();
   const feed = useFeed();
   const saved = useSaved();
   const reminders = useReminders();
@@ -118,7 +118,7 @@ export default function HomePage() {
             </div>
           </CityMap3D>
         )}
-        <div className="-mt-2 text-xs text-faint">Schematic map. Distances are real; streets are illustrative.{campus ? ` Campus: ${campus.name}.` : ""}</div>
+        <div className="-mt-2 text-xs text-faint">Schematic map. Distances are real; streets are illustrative.</div>
 
         <div className="box-border flex flex-col gap-4 rounded-[16px] border border-chip bg-inset px-5 py-[18px]">
           <div className="flex flex-wrap items-baseline justify-between gap-3">

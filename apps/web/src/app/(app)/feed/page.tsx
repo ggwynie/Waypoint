@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { OpportunityCard } from "@/components/feed/opportunity-card";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { CategoryTab } from "@/components/ui/chips";
@@ -36,13 +36,17 @@ function Feed() {
   const save = useToggleSave();
   const notRelevant = useNotRelevant();
 
+  // Apply ?open= once per link, after the cards exist; later refetches must not reopen or scroll.
+  const applied = useRef<string | null>(null);
+  const hasData = !!feed.data;
   useEffect(() => {
     const id = params.get("open");
-    if (!id) return;
+    if (!id || !hasData || applied.current === id) return;
+    applied.current = id;
     setOpen(id);
     const t = setTimeout(() => document.getElementById(`card-${id}`)?.scrollIntoView({ block: "center" }), 50);
     return () => clearTimeout(t);
-  }, [params, feed.data]);
+  }, [params, hasData]);
 
   if (!me) return <LoadingBlock waking={waking} rows={3} label="Loading opportunities" />;
 
@@ -115,7 +119,20 @@ function Feed() {
         <ErrorState text="Couldn't load opportunities." onRetry={() => feed.refetch()} retrying={feed.isFetching} />
       ) : items.length === 0 ? (
         q || cat ? (
-          <EmptyState title="Nothing matches here" text="Clear the search, pick another category, or widen your radius." action={<ButtonLink href="/radius" variant="primary">Adjust radius</ButtonLink>} />
+          <EmptyState
+            title="Nothing matches here"
+            text="Clear the search, pick another category, or widen your radius."
+            action={
+              <div className="flex flex-wrap gap-2.5">
+                {q && (
+                  <Button variant="primary" onClick={() => setParam("q", null)}>
+                    Clear search
+                  </Button>
+                )}
+                <ButtonLink href="/radius" variant={q ? "ghost" : "primary"}>Adjust radius</ButtonLink>
+              </div>
+            }
+          />
         ) : (
           <EmptyState
             title="Nothing matches"

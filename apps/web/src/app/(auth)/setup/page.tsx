@@ -36,12 +36,25 @@ type Draft = {
 };
 const EMPTY: Draft = { major_id: 1, semester: 5, campus_id: 1, looking_for: [...CATEGORIES], tags: [], distance_origin: "home", home_district_code: "pademangan", radius_km: 25, fallback_mode: "online_first", consent: false };
 
-function loadDraft(): Draft | null {
+type Stored = { owner: string; step: number; draft: Partial<Draft> };
+
+/** Answers and the current step survive a reload (R1.2), only for the account that wrote them. */
+function loadDraft(owner: string): { step: number; draft: Draft } | null {
   try {
     const raw = sessionStorage.getItem(DRAFT_KEY);
-    return raw ? { ...EMPTY, ...(JSON.parse(raw) as Partial<Draft>) } : null;
+    if (!raw) return null;
+    const s = JSON.parse(raw) as Stored;
+    if (s.owner !== owner) return null;
+    return { step: Math.min(4, Math.max(1, s.step || 1)), draft: { ...EMPTY, ...s.draft } };
   } catch {
     return null;
+  }
+}
+function saveDraft(owner: string, step: number, draft: Draft) {
+  try {
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ owner, step, draft } satisfies Stored));
+  } catch {
+    /* storage blocked: answers last for this page view */
   }
 }
 
@@ -66,30 +79,46 @@ function Setup() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
 
+  const owner = currentSession()?.email ?? "";
+  const redo = !!params.get("redo");
+
   useEffect(() => {
-    if (!currentSession()) router.replace("/login");
-    const saved = loadDraft();
-    if (saved) setD(saved);
+    if (!currentSession()) return router.replace("/login");
+    const saved = loadDraft(currentSession()!.email);
+    if (saved) {
+      setD(saved.draft);
+      setStep(saved.step);
+      setTouched(true);
+    }
   }, [router]);
 
-  // Redo setup: start from the current profile.
+  // Redo setup: start from the current profile unless a draft was restored.
   useEffect(() => {
-    if (!params.get("redo") || !me.data || touched) return;
+    if (!redo || !me.data || touched) return;
     const m = me.data;
     setD({ ...EMPTY, major_id: m.major_id, semester: m.semester, campus_id: m.campus_id ?? 1, looking_for: m.looking_for, tags: m.tags, distance_origin: m.distance_origin, home_district_code: m.home_district_code ?? EMPTY.home_district_code, radius_km: m.radius_km, fallback_mode: m.fallback_mode, consent: !!m.consent_version });
-  }, [params, me.data, touched]);
+  }, [redo, me.data, touched]);
 
   const update = (patch: Partial<Draft>) => {
     setTouched(true);
     setD((cur) => {
       const next = { ...cur, ...patch };
-      try {
-        sessionStorage.setItem(DRAFT_KEY, JSON.stringify(next));
-      } catch {
-        /* storage blocked */
-      }
+      saveDraft(owner, step, next);
       return next;
     });
+  };
+  const goStep = (n: number) => {
+    setTouched(true);
+    setStep(n);
+    saveDraft(owner, n, d);
+  };
+  const cancelRedo = () => {
+    try {
+      sessionStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* ignore */
+    }
+    router.push("/profile");
   };
 
   const lookingNone = d.looking_for.length === 0;
@@ -143,7 +172,7 @@ function Setup() {
   const next = () => {
     if (step === 2 && lookingNone) return;
     if (step === 4) return void finish();
-    setStep(step + 1);
+    goStep(step + 1);
   };
 
   return (
@@ -244,9 +273,14 @@ function Setup() {
             {error}
           </div>
         )}
-        <div className="mt-1 flex gap-2.5">
+        <div className="mt-1 flex flex-wrap gap-2.5">
+          {redo && step === 1 && (
+            <Button size="lg" variant="quiet" onClick={cancelRedo}>
+              Cancel
+            </Button>
+          )}
           {step > 1 && (
-            <Button size="lg" onClick={() => setStep(step - 1)}>
+            <Button size="lg" onClick={() => goStep(step - 1)}>
               Back
             </Button>
           )}

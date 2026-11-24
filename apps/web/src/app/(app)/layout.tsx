@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { hasUnread, markSeen, readSeen } from "@/lib/unread";
 import { Suspense, useCallback, useEffect, useState, type ReactNode } from "react";
 import { Header } from "@/components/shell/header";
 import { NavRail } from "@/components/shell/nav-rail";
@@ -21,6 +22,14 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const reminders = useReminders();
   const waking = useWaking(me.isPending);
   const { theme, setTheme } = useTheme();
+  const path = usePathname();
+  const [seenOn, setSeenOn] = useState<string | null>(null);
+
+  // Opening Reminders marks today's in-app reminders as seen.
+  useEffect(() => {
+    if (path === "/reminders") markSeen();
+    setSeenOn(readSeen());
+  }, [path]);
 
   useEffect(() => {
     const ok = !!currentSession();
@@ -42,14 +51,14 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   if (hasSession === false) return null;
 
-  const hasUnread = !!reminders.data?.some((r) => r.status === "sent" && r.channel === "in_app");
+  const unread = path !== "/reminders" && hasUnread(reminders.data, seenOn);
 
   return (
     <div className="box-border flex min-h-screen flex-wrap items-stretch gap-6 p-6 max-[760px]:flex-col max-[760px]:gap-4 max-[760px]:p-4">
       <NavRail initials={me.data ? initialsOf(me.data.display_name) : ""} />
       <div className="flex min-w-0 flex-[999_1_640px] flex-col gap-6 max-[760px]:gap-4">
         <Suspense>
-          <Header onHowFit={() => setHowFit(true)} hasUnread={hasUnread} />
+          <Header onHowFit={() => setHowFit(true)} hasUnread={unread} />
         </Suspense>
         {me.data ? (
           <main className="flex min-w-0 flex-col gap-6">{children}</main>
