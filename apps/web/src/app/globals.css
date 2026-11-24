@@ -90,6 +90,9 @@ select option { background: var(--page); color: var(--ink); }
 @keyframes wpToast { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
 .wp-toast { animation: wpToast 250ms var(--ease-out) both; }
 
+/* Nav items: hover state layer, distinct from the current page's filled pill. */
+.nav-item:not([aria-current="page"]):hover { background: var(--chip) !important; border-color: var(--line2) !important; color: var(--ink) !important; }
+
 /* 3D city map */
 .mc-plane { transition: transform var(--t-map) var(--ease-out); }
 .mc-dragging .mc-plane { transition: none; }

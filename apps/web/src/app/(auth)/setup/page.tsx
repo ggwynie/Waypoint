@@ -12,6 +12,7 @@ import { api, ApiError, CATEGORIES, type Category, type DistanceOrigin, type Fal
 import { currentSession } from "@/lib/auth";
 import { CAT } from "@/lib/categories";
 import { keys, useMe, useRefData } from "@/lib/hooks/queries";
+import { useTheme } from "@/lib/theme";
 
 const CONSENT_VERSION = "2026-11-v1";
 const DRAFT_KEY = "wp-setup-draft";
@@ -72,6 +73,7 @@ function Setup() {
   const params = useSearchParams();
   const ref = useRefData();
   const me = useMe();
+  const { theme } = useTheme();
   const [step, setStep] = useState(1);
   const [d, setD] = useState<Draft>(EMPTY);
   const [touched, setTouched] = useState(false);
@@ -143,6 +145,8 @@ function Setup() {
         home_district_code: d.home_district_code,
         radius_km: d.radius_km,
         fallback_mode: d.fallback_mode,
+        // The theme on screen now (system or picked) becomes profiles.theme.
+        theme,
       };
       const profile = await api.putMe({ ...body, consent_version: CONSENT_VERSION, display_name: currentSession()?.name });
       qc.setQueryData(keys.me, profile);

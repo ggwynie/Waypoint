@@ -54,9 +54,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const unread = path !== "/reminders" && hasUnread(reminders.data, seenOn);
 
   return (
-    <div className="box-border flex min-h-screen flex-wrap items-stretch gap-6 p-6 max-[760px]:flex-col max-[760px]:gap-4 max-[760px]:p-4">
+    <div className="box-border flex min-h-screen items-stretch gap-6 p-6 max-[760px]:flex-col max-[760px]:gap-4 max-[760px]:p-4">
       <NavRail initials={me.data ? initialsOf(me.data.display_name) : ""} />
-      <div className="flex min-w-0 flex-[999_1_640px] flex-col gap-6 max-[760px]:gap-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-6 max-[760px]:gap-4">
         <Suspense>
           <Header onHowFit={() => setHowFit(true)} hasUnread={unread} />
         </Suspense>
