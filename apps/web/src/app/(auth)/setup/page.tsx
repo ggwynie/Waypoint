@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ToggleChip } from "@/components/ui/chips";
 import { RadioCards, RadiusControl, Select, Stepper } from "@/components/ui/form";
 import { api, ApiError, CATEGORIES, type Category, type DistanceOrigin, type FallbackMode } from "@/lib/api";
-import { currentSession } from "@/lib/auth";
+import { currentSession, syncSession } from "@/lib/auth";
 import { CAT } from "@/lib/categories";
 import { keys, useMe, useRefData } from "@/lib/hooks/queries";
 import { useTheme } from "@/lib/theme";
@@ -81,17 +81,26 @@ function Setup() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
 
-  const owner = currentSession()?.email ?? "";
+  const [owner, setOwner] = useState("");
   const redo = !!params.get("redo");
 
+  // Arriving from the confirmation email, the Supabase session exists before the local one.
   useEffect(() => {
-    if (!currentSession()) return router.replace("/login");
-    const saved = loadDraft(currentSession()!.email);
-    if (saved) {
-      setD(saved.draft);
-      setStep(saved.step);
-      setTouched(true);
-    }
+    let live = true;
+    syncSession().then((s) => {
+      if (!live) return;
+      if (!s) return router.replace("/login");
+      setOwner(s.email);
+      const saved = loadDraft(s.email);
+      if (saved) {
+        setD(saved.draft);
+        setStep(saved.step);
+        setTouched(true);
+      }
+    });
+    return () => {
+      live = false;
+    };
   }, [router]);
 
   // Redo setup: start from the current profile unless a draft was restored.

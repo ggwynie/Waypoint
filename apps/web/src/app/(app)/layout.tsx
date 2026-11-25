@@ -8,7 +8,7 @@ import { NavRail } from "@/components/shell/nav-rail";
 import { HowFitDialog } from "@/components/ui/how-fit-dialog";
 import { ErrorState, LoadingBlock } from "@/components/ui/states";
 import { ApiError } from "@/lib/api";
-import { currentSession } from "@/lib/auth";
+import { syncSession } from "@/lib/auth";
 import { useMe, useReminders, useWaking } from "@/lib/hooks/queries";
 import { initialsOf } from "@/lib/format";
 import { useTheme } from "@/lib/theme";
@@ -32,16 +32,25 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   }, [path]);
 
   useEffect(() => {
-    const ok = !!currentSession();
-    setHasSession(ok);
-    if (!ok) router.replace("/login");
+    let live = true;
+    syncSession().then((s) => {
+      if (!live) return;
+      setHasSession(!!s);
+      if (!s) router.replace("/login");
+      else me.refetch();
+    });
+    return () => {
+      live = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   useEffect(() => {
     const e = me.error;
+    if (hasSession !== true) return; // wait until the session is synced
     if (e instanceof ApiError && e.status === 401) router.replace("/login");
     if (e instanceof ApiError && e.code === "profile_missing") router.replace("/setup");
-  }, [me.error, router]);
+  }, [me.error, router, hasSession]);
 
   // profiles.theme wins once signed in.
   useEffect(() => {
