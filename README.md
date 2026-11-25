@@ -18,7 +18,7 @@ Built so far, and what is still to come. Planned parts are never shown as done.
 |---|---|
 | Web app (`apps/web`): log in, sign up, 4-step setup, Home with 3D map, All opportunities, Saved, Reminders, Radius & location, Profile, dark and light theme | Built, running on demo data |
 | Submit a listing, Admin queue, Admin sources screens | Not built yet |
-| API (`apps/api`, FastAPI) and shared core (`packages/core`, ranking, migrations) | Not built yet |
+| API (`apps/api`, FastAPI) and shared core (`packages/core`, ranking) and migrations (`supabase/migrations`) | Not built yet |
 | Database and auth (Supabase Postgres + Supabase Auth) | Not set up yet |
 | Data pipeline (`pipeline/`): crawl, LLM extraction, validation, merge | Not built yet |
 | Scheduled jobs (daily crawl, expiry, reminder emails) | Not built yet |
@@ -59,7 +59,8 @@ corepack pnpm --filter web test
 ```
 apps/web/        Next.js 15 web app (built)
 apps/api/        FastAPI API (planned)
-packages/core/   models, enums, ranking.py, migrations (planned)
+packages/core/   models, enums, ranking.py (planned)
+supabase/        SQL migrations (planned)
 pipeline/        crawler and extraction (planned)
 ```
 
