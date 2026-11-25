@@ -82,4 +82,3 @@ Fonts: Inter and Space Grotesk from Google Fonts (SIL Open Font License), loaded
 ## Third-party resources
 
 - **Design.** The UI follows the team's Dashboard mockup (`Main.dc.html`, `MainAuth.dc.html`). Icons are simple stroke SVGs drawn for this project.
-
