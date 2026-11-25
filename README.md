@@ -19,7 +19,8 @@ Built so far, and what is still to come. Planned parts are never shown as done.
 | Web app (`apps/web`): log in, sign up, 4-step setup, Home with 3D map, All opportunities, Saved, Reminders, Radius & location, Profile, dark and light theme | Built, running on demo data |
 | Submit a listing, Admin queue, Admin sources screens | Not built yet |
 | API (`apps/api`, FastAPI) and shared core (`packages/core`, ranking) and migrations (`supabase/migrations`) | Not built yet |
-| Database and auth (Supabase Postgres + Supabase Auth) | Not set up yet |
+| Supabase Auth (email and password, email confirmation) | Connected in the web app |
+| Database (Supabase Postgres, schema `app`) | Schema drafted; app data still goes through the planned API |
 | Data pipeline (`pipeline/`): crawl, LLM extraction, validation, merge | Not built yet |
 | Scheduled jobs (daily crawl, expiry, reminder emails) | Not built yet |
 
@@ -27,7 +28,7 @@ Built so far, and what is still to come. Planned parts are never shown as done.
 
 - **Demo data.** While `NEXT_PUBLIC_API_URL` is empty, the web app talks to an in-browser stand-in for the API (`apps/web/src/lib/api/mock`). The 8 listings, the profile and all saves live in the browser's `localStorage`. The app labels this with "Demo data for UI illustration only".
 - **Demo Fit scores.** The stand-in computes Fit with the team's Fit rules so the demo re-ranks when you change the radius. The real ranking will live only in `packages/core/waypoint_core/ranking.py`; the web components only display the `fit` and `fit_parts` they receive.
-- **Demo sign-in.** Log in and sign up use a local demo session, not Supabase Auth. Any email works; no confirmation email or password reset yet.
+- **Sign-in.** Sign up, log in and log out use Supabase Auth with email confirmation. Password reset is not built yet. Without the Supabase values in `apps/web/.env.local`, the app falls back to a local demo session.
 - **Schematic map.** Coastline, river and streets are illustrative; distances and directions are real.
 - **No reminder emails yet.** Reminders are listed in the app but nothing is sent.
 
@@ -42,7 +43,7 @@ corepack pnpm --filter web dev
 
 Open http://localhost:3000.
 
-**Demo account:** log in with `rani@example.com` and any password to see the seeded profile (Computer Science, semester 6). Any other email starts a new account and runs setup.
+**Accounts:** put `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `apps/web/.env.local` and add `http://localhost:3000/auth/callback` to the Supabase Auth redirect URLs, then sign up and confirm the email to run setup. With those values empty, log in with `rani@example.com` and any password to see the seeded demo profile.
 
 Add `?demo=slow`, `?demo=error` or `?demo=empty` to any app URL to see the waking-server notice, the error state with Retry, or the empty state.
 
