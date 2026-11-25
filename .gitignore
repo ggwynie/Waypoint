@@ -11,4 +11,3 @@ next-env.d.ts
 playwright-report/
 test-results/
 .impeccable/hook.cache.json
-
